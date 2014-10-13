@@ -23,6 +23,7 @@
         Sorry but to get this info you need turn ON your WiFi
     </string>
     <string name="associated_with_string">associated with:</string>
+    <string name="global_mode_string">Global Mode</string>
 
     <!--Modes Name-->
     <string name="full_volume_mode_string">Full Volume Mode</string>

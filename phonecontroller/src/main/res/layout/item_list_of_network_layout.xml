@@ -12,14 +12,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:singleLine="true"
-        android:text="123"/>
+        />
 
     <TextView
         android:id="@+id/associate_with_mode_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/wifi_network_name_text_view"
-        android:text="321"/>
+        />
 
 
     <ImageButton

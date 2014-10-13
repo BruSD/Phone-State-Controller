@@ -128,12 +128,15 @@ public class HomeFragment extends Fragment {
         switch (modeID) {
             case Constant.MODE_FULL:
                 modeTypeImageView.setBackgroundColor(getResources().getColor(R.color.full_mode));
+                modeTypeImageView.setImageDrawable(parentActivity.getResources().getDrawable(android.R.drawable.ic_lock_silent_mode_off));
                 break;
             case Constant.MODE_MEDIUM:
                 modeTypeImageView.setBackgroundColor(getResources().getColor(R.color.medium_mode));
+                modeTypeImageView.setImageDrawable(parentActivity.getResources().getDrawable(android.R.drawable.ic_lock_silent_mode_off));
                 break;
             case Constant.MODE_SILENT:
                 modeTypeImageView.setBackgroundColor(getResources().getColor(R.color.silent_mode));
+                modeTypeImageView.setImageDrawable(parentActivity.getResources().getDrawable(android.R.drawable.ic_lock_silent_mode));
                 break;
 
         }

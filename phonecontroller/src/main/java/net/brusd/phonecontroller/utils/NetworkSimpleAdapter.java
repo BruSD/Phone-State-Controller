@@ -2,6 +2,7 @@ package net.brusd.phonecontroller.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import net.brusd.phonecontroller.R;
 import net.brusd.phonecontroller.dialog.ChosenDialog;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,9 +28,11 @@ import java.util.Map;
 public class NetworkSimpleAdapter extends SimpleAdapter {
 
     private Activity parentActivity;
-    private List<? extends Map<String, ?>> data;
+    private List<HashMap<String, String>> data;
     private String associatedString;
     private ChosenDialog chosenDialog;
+    private DismissChosenDialogListener dismissChosenDialogListener;
+
     /**
      * Constructor
      *
@@ -43,17 +47,18 @@ public class NetworkSimpleAdapter extends SimpleAdapter {
      * @param to       The views that should display column in the "from" parameter. These should all be
      *                 TextViews. The first N views in this list are given the values of the first N columns
      */
-    public NetworkSimpleAdapter(Activity context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
+    public NetworkSimpleAdapter(Activity context, List<HashMap<String, String>> data, int resource, String[] from, int[] to) {
         super(context, data, resource, from, to);
 
         this.parentActivity =  context;
         this.data = data;
         associatedString = parentActivity.getResources().getString(R.string.associated_with_string);
+        dismissChosenDialogListener = new DismissChosenDialogListener();
 
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         TextView wifiNetworkNameTextView, wifiAssociateStatusTextView;
         ImageButton wifiAddRemoveImageButton;
 
@@ -70,7 +75,14 @@ public class NetworkSimpleAdapter extends SimpleAdapter {
         wifiNetworkNameTextView.setText(wifiName);
 
         wifiAddRemoveImageButton = (ImageButton)convertView.findViewById(R.id.wifi_add_remove_image_button);
-
+        wifiAddRemoveImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chosenDialog = new ChosenDialog(parentActivity, data.get(position));
+                chosenDialog.setOnDismissListener(dismissChosenDialogListener);
+                chosenDialog.show();
+            }
+        });
         String asociete = associatedString;
         switch (relatedMode){
             case Constant.MODE_FULL:
@@ -92,5 +104,13 @@ public class NetworkSimpleAdapter extends SimpleAdapter {
         wifiAssociateStatusTextView.setText(asociete);
 
         return convertView;
+    }
+
+    private class  DismissChosenDialogListener implements DialogInterface.OnDismissListener{
+
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            notifyDataSetChanged();
+        }
     }
 }

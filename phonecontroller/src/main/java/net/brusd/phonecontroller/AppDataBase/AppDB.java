@@ -95,7 +95,7 @@ public class AppDB {
         return SharedPreferences.getGlobalVolumeMode(context);
     }
 
-    public Cursor getAllWifiByModeID(int modeID) {
+    public Cursor getAllWifiByMode(int modeID) {
         Cursor cursorAllWifi = null;
         if (!appDB.isOpen())
             open();
@@ -109,6 +109,24 @@ public class AppDB {
                 null);
 
         return cursorAllWifi;
+    }
+    public int getCountOfWifiReletedToMode(int modeID) {
+        Cursor cursorAllWifi = null;
+        int countOfWiFi = 0;
+        if (!appDB.isOpen())
+            open();
+
+        cursorAllWifi = appDB.query(AppOpenHelper.TABLE_MODES_WIFI_RELATION,
+                new String[]{AppOpenHelper.TABLE_MODES_WIFI_RELATION_id, AppOpenHelper.TABLE_MODES_WIFI_RELATION_mode_id, AppOpenHelper.TABLE_MODES_WIFI_RELATION_wifi_name,},
+                AppOpenHelper.TABLE_MODES_WIFI_RELATION_mode_id + " = " + modeID,
+                null,
+                null,
+                null,
+                null);
+        if (cursorAllWifi.moveToFirst()){
+            countOfWiFi = cursorAllWifi.getCount();
+        }
+        return countOfWiFi;
     }
 
 

@@ -3,16 +3,20 @@ package net.brusd.phonecontroller;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
-
-
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import net.brusd.phonecontroller.fragments.AboutFragment;
 import net.brusd.phonecontroller.fragments.HomeFragment;
@@ -27,12 +31,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+    private FragmentChangeBroadcastReceiver fragmentChangeBroadcastReceiver;
 
     private Button homeButton, modesButton, savedWiFiButton, settingsButton, rateUsButton, aboutButon;
 
     public enum ContentType {
-        HOME, MODES, SAVED_WIFI, SETTING, ABOUT
+        HOME, MODES, SAVED_WIFI, MODE_SETTING, SETTING, ABOUT
     }
+
     public ContentType currentFragment = ContentType.HOME;
 
     @Override
@@ -42,12 +48,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mDrawerTitle = this.getString(R.string.drawer_open);
         mTitle = mDrawerTitle;
         initialDrawerContent();
+        fragmentChangeBroadcastReceiver = new FragmentChangeBroadcastReceiver();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setFragment(currentFragment);
+        setFragment(currentFragment, null);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constant.SET_MODE_SETTING);
+        registerReceiver(fragmentChangeBroadcastReceiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        if (fragmentChangeBroadcastReceiver != null)
+            unregisterReceiver(fragmentChangeBroadcastReceiver);
+        super.onPause();
     }
 
     private void initialDrawerContent() {
@@ -107,13 +125,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         return super.onOptionsItemSelected(item);
     }
 
-    public void initDrawerButton(View drawerView){
-        homeButton = (Button)drawerView.findViewById(R.id.home_button);
-        modesButton = (Button)drawerView.findViewById(R.id.modes_button);
-        savedWiFiButton =(Button)drawerView.findViewById(R.id.saved_wifi_button);
-        settingsButton = (Button)drawerView.findViewById(R.id.settings_button);
-        rateUsButton = (Button)drawerView.findViewById(R.id.rate_us_button);
-        aboutButon = (Button)drawerView.findViewById(R.id.about_button);
+    public void initDrawerButton(View drawerView) {
+        homeButton = (Button) drawerView.findViewById(R.id.home_button);
+        modesButton = (Button) drawerView.findViewById(R.id.modes_button);
+        savedWiFiButton = (Button) drawerView.findViewById(R.id.saved_wifi_button);
+        settingsButton = (Button) drawerView.findViewById(R.id.settings_button);
+        rateUsButton = (Button) drawerView.findViewById(R.id.rate_us_button);
+        aboutButon = (Button) drawerView.findViewById(R.id.about_button);
 
         homeButton.setOnClickListener(this);
         modesButton.setOnClickListener(this);
@@ -122,7 +140,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         rateUsButton.setOnClickListener(this);
         aboutButon.setOnClickListener(this);
 
-        LinearLayout emptyLinerLayout = (LinearLayout)drawerView.findViewById(R.id.empty_liner_layout);
+        LinearLayout emptyLinerLayout = (LinearLayout) drawerView.findViewById(R.id.empty_liner_layout);
         emptyLinerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,35 +153,36 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
 
         mDrawerLayout.closeDrawers();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.home_button:
-                setFragment(ContentType.HOME);
+                setFragment(ContentType.HOME, null);
                 break;
             case R.id.modes_button:
-                setFragment(ContentType.MODES);
+                setFragment(ContentType.MODES, null);
                 break;
             case R.id.saved_wifi_button:
-                setFragment(ContentType.SAVED_WIFI);
+                setFragment(ContentType.SAVED_WIFI, null);
                 break;
             case R.id.settings_button:
-                setFragment(ContentType.SETTING);
+                setFragment(ContentType.SETTING, null);
                 break;
             case R.id.rate_us_button:
                 break;
             case R.id.about_button:
-                setFragment(ContentType.ABOUT);
+                setFragment(ContentType.ABOUT, null);
                 break;
         }
     }
 
-    private void setFragment( ContentType contentType) {
+    private void setFragment(ContentType contentType, Bundle bundle) {
         final Fragment fragmentOld = getFragmentManager().findFragmentById(R.id.fragment_container);
 
         final Fragment fragment = fragmentFromContentType(contentType);
 
 
-        if(!fragment.equals(fragmentOld)){
+        if (!fragment.equals(fragmentOld)) {
             FragmentTransaction ft = getFragmentManager().beginTransaction();
+            fragment.setArguments(bundle);
             ft.replace(R.id.fragment_container, fragment);
             ft.commitAllowingStateLoss();
         }
@@ -208,6 +227,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         }
         return fragment;
+    }
+
+    class FragmentChangeBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Constant.SET_MODE_SETTING)) {
+                int modeID = intent.getIntExtra(Constant.MODE_ID, 0);
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constant.MODE_ID, modeID);
+                Toast.makeText(context, ""+modeID, Toast.LENGTH_LONG).show();
+//                setFragment(ContentType.MODE_SETTING, bundle);
+
+            }
+        }
     }
 }
 

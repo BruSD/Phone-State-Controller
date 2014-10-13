@@ -19,6 +19,13 @@ public class Constant {
     public static final String MEDIUM_VOLUME_MODE = "MEDIUM_VOLUME";
     public static final String SILENT_VOLUME_MODE = "SILENT_VOLUME";
 
+    //Modes Setting value
 
+    public static final String VOLUME_OF_MODE = "VOLUME_OF_MODE";
+    public static final String RELETADE_TO_MODE = "RELETADE_TO_MODE";
+    public static final String MODE_ID = "MODE_ID";
+
+    public static final String INTENT_OF_MODE = "INTENT_OF_MODE";
+    public static final String SET_MODE_SETTING = "SET_MODE_SETTING";
 
 }

@@ -16,6 +16,8 @@ import net.brusd.phonecontroller.AppDataBase.AppDB;
 import net.brusd.phonecontroller.Constant;
 import net.brusd.phonecontroller.R;
 
+import java.util.HashMap;
+
 /**
  * Created by BruSD on 10/2/2014.
  */
@@ -28,6 +30,7 @@ public class ChosenDialog extends Dialog implements
     private String wifi;
     private Button yes, no;
     private int modeID;
+    private HashMap<String, String> wifiHashMap;
 
     private RadioGroup.OnCheckedChangeListener onCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
@@ -56,6 +59,14 @@ public class ChosenDialog extends Dialog implements
 
     }
 
+    public ChosenDialog(Context context, HashMap<String, String> wifiName) {
+        super(context);
+        this.context = context;
+        wifiHashMap = wifiName;
+        this.wifi = wifiName.get(Constant.WIFI_NAME);
+        appDB = AppDB.getInstance(context);
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +114,9 @@ public class ChosenDialog extends Dialog implements
         switch (v.getId()) {
             case R.id.btn_yes:
                 appDB.addWiFiModeRelation(modeID, wifi);
+                if (wifiHashMap != null){
+                    wifiHashMap.put(Constant.MODE_NAME, String.valueOf(appDB.isWiFiRelatedToMode(wifi)));
+                }
                 dismiss();
                 break;
             case R.id.btn_no:

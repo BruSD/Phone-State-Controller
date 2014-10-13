@@ -31,7 +31,7 @@ public class SavedWiFiFragment extends Fragment {
     private View rootView;
     private Activity parentActivity;
 
-    private ArrayList<HashMap<String, ?>> networkList =  new ArrayList<>() ;
+    private ArrayList<HashMap<String, String>> networkList =  new ArrayList<>() ;
     private NetworkSimpleAdapter networkSimpleAdapter ;
     private ListView listView;
 
