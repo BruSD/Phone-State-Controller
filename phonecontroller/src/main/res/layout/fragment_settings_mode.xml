@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/mode_name_setting_mode_frag_text_veiw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="center"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        />
+
+    <LinearLayout
+
+        style="@style/SettingModeLayoutTextViewStyle">
+        <TextView
+
+            android:text="@string/ring_string"
+            style="@style/SettingModeNameTextViewStyle"/>
+        <TextView
+            android:id="@+id/ring_value_text_view"
+            android:text="%"
+            style="@style/SettingModeValueTextViewStyle"/>
+
+        <Switch
+            android:id="@+id/ring_switch"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    <LinearLayout
+        style="@style/SettingModeLayoutTextViewStyle">
+        <TextView
+
+            android:text="@string/alarm_string"
+            style="@style/SettingModeNameTextViewStyle"
+            />
+        <TextView
+            android:id="@+id/alarm_value_text_view"
+            android:text="%"
+            style="@style/SettingModeValueTextViewStyle"/>
+
+        <Switch
+            android:id="@+id/alarm_switch"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/SettingModeLayoutTextViewStyle">
+        <TextView
+            android:text="@string/notification_string"
+            style="@style/SettingModeNameTextViewStyle"/>
+        <TextView
+            android:id="@+id/notification_value_text_view"
+            android:text="%"
+            style="@style/SettingModeValueTextViewStyle"/>
+
+        <Switch
+            android:id="@+id/notification_switch"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/SettingModeLayoutTextViewStyle">
+        <TextView
+            android:text="@string/use_this_mode_when_disconnected_string"
+            style="@style/SettingModeNameTextViewStyle"
+            android:textAppearance="@android:style/TextAppearance.Small"
+            />
+
+
+        <Switch
+            android:id="@+id/disconnected_switch"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <ListView
+        android:id="@+id/wifi_in_this_mode_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

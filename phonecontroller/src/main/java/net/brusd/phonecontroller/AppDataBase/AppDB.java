@@ -62,7 +62,6 @@ public class AppDB {
                     values,
                     AppOpenHelper.TABLE_MODES_WIFI_RELATION_wifi_name + " = '" + wiFiName + "'",
                     null);
-
         }
 
     }
@@ -110,6 +109,7 @@ public class AppDB {
 
         return cursorAllWifi;
     }
+
     public int getCountOfWifiReletedToMode(int modeID) {
         Cursor cursorAllWifi = null;
         int countOfWiFi = 0;
@@ -123,7 +123,7 @@ public class AppDB {
                 null,
                 null,
                 null);
-        if (cursorAllWifi.moveToFirst()){
+        if (cursorAllWifi.moveToFirst()) {
             countOfWiFi = cursorAllWifi.getCount();
         }
         return countOfWiFi;
@@ -131,7 +131,9 @@ public class AppDB {
 
 
     public void open() {
+
         appDB = appOpenHelper.getWritableDatabase();
+
     }
 
     public void close() {

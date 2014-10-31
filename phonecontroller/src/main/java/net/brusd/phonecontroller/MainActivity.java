@@ -2,6 +2,7 @@ package net.brusd.phonecontroller;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import net.brusd.phonecontroller.fragments.AboutFragment;
 import net.brusd.phonecontroller.fragments.HomeFragment;
+import net.brusd.phonecontroller.fragments.ModeSettingFragment;
 import net.brusd.phonecontroller.fragments.ModesFragment;
 import net.brusd.phonecontroller.fragments.SavedWiFiFragment;
 import net.brusd.phonecontroller.fragments.SettingsFragment;
@@ -34,7 +36,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private FragmentChangeBroadcastReceiver fragmentChangeBroadcastReceiver;
 
     private Button homeButton, modesButton, savedWiFiButton, settingsButton, rateUsButton, aboutButon;
-
+    private FragmentManager fragmentManager;
     public enum ContentType {
         HOME, MODES, SAVED_WIFI, MODE_SETTING, SETTING, ABOUT
     }
@@ -48,6 +50,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mDrawerTitle = this.getString(R.string.drawer_open);
         mTitle = mDrawerTitle;
         initialDrawerContent();
+        fragmentManager = getFragmentManager();
         fragmentChangeBroadcastReceiver = new FragmentChangeBroadcastReceiver();
     }
 
@@ -181,9 +184,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 
         if (!fragment.equals(fragmentOld)) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
             fragment.setArguments(bundle);
             ft.replace(R.id.fragment_container, fragment);
+            if(bundle != null){
+                ft.addToBackStack(fragment.getClass().getName());
+            }else {
+                fragmentManager.popBackStack();
+            }
             ft.commitAllowingStateLoss();
         }
 
@@ -208,6 +216,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case SAVED_WIFI: {
                 fragment = new SavedWiFiFragment();
                 currentFragment = ContentType.SAVED_WIFI;
+                break;
+            }
+            case MODE_SETTING: {
+                fragment = new ModeSettingFragment();
+                currentFragment = ContentType.MODE_SETTING;
                 break;
             }
             case SETTING: {
@@ -238,11 +251,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Bundle bundle = new Bundle();
                 bundle.putInt(Constant.MODE_ID, modeID);
                 Toast.makeText(context, ""+modeID, Toast.LENGTH_LONG).show();
-//                setFragment(ContentType.MODE_SETTING, bundle);
+
+                setFragment(ContentType.MODE_SETTING, bundle);
 
             }
         }
     }
+
+
 }
 
 

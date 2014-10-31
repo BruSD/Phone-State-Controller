@@ -114,6 +114,7 @@ public class HomeFragment extends Fragment {
             if (connectionInfo != null && !(connectionInfo.getSSID().equals(""))) {
                 appDB = AppDB.getInstance(parentActivity);
                 ssid = connectionInfo.getSSID();
+
                 initModeTypeImageView(appDB.isWiFiRelatedToMode(ssid));
                 editModeAssocieteImageView.setOnClickListener(onClickListener);
             }

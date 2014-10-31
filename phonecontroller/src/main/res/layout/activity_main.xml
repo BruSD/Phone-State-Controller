@@ -24,10 +24,7 @@
             style="@style/ButtonDrawerStyle"
 
             android:text="@string/home_button_string"/>
-        <Button
-            android:id="@+id/modes_button"
-            style="@style/ButtonDrawerStyle"
-            android:text="@string/modes_button_string"/>
+
         <Button
             android:id="@+id/saved_wifi_button"
             style="@style/ButtonDrawerStyle"
@@ -36,6 +33,10 @@
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:background="@android:color/background_dark"/>
+        <Button
+            android:id="@+id/modes_button"
+            style="@style/ButtonDrawerStyle"
+            android:text="@string/modes_button_string"/>
         <Button
             android:id="@+id/settings_button"
             style="@style/ButtonDrawerStyle"

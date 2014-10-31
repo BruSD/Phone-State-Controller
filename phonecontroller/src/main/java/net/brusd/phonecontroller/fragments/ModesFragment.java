@@ -41,7 +41,7 @@ public class ModesFragment extends Fragment {
         ArrayList<HashMap<String, Object>> modes = new ArrayList<>();
         HashMap<String, Object> mode =  new HashMap<>();
         //Full volume Mode
-        mode.put(Constant.VOLUME_OF_MODE, SharedPreferences.getFullVolumeValue(parentActivity));
+        mode.put(Constant.VOLUME_OF_MODE, SharedPreferences.getFullRingVolume(parentActivity));
         if (Constant.MODE_FULL == SharedPreferences.getGlobalVolumeMode(parentActivity)){
             count = -1;
         }else {
@@ -55,7 +55,7 @@ public class ModesFragment extends Fragment {
         //Medium volume mode
 
         mode = new HashMap<>();
-        mode.put(Constant.VOLUME_OF_MODE, SharedPreferences.getMediumVolumeValue(parentActivity));
+        mode.put(Constant.VOLUME_OF_MODE, SharedPreferences.getMediumRingVolume(parentActivity));
         if (Constant.MODE_MEDIUM == SharedPreferences.getGlobalVolumeMode(parentActivity)){
             count = -1;
         }else {
@@ -69,7 +69,7 @@ public class ModesFragment extends Fragment {
         //Silent volume mode
         mode = new HashMap<>();
         mode = new HashMap<>();
-        mode.put(Constant.VOLUME_OF_MODE, SharedPreferences.getSilentVolumeValue(parentActivity));
+        mode.put(Constant.VOLUME_OF_MODE, SharedPreferences.getSilentRingVolume(parentActivity));
         if (Constant.MODE_SILENT == SharedPreferences.getGlobalVolumeMode(parentActivity)){
             count = -1;
         }else {
